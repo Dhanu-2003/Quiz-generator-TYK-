@@ -1,0 +1,66 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Generater</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+</head>
+
+<body class="full">
+    <div class="header">
+        <div class="title-box">
+            <h1 class="title">
+                &nbsp;&nbsp;TEST YOUR KNOWELEDGE&nbsp;&nbsp;
+            </h1>
+        </div>
+    </div>
+    <div class="main-body" style="height: 100%;display: flex;
+    align-items: center;justify-content: center;position: relative;">
+
+        <form class="start-test" style="width: 700px;position: relative;" action="/TMK/getmarks"
+        method="post">
+            <p class="title" style="width: 100%;">
+                <b>I have few questions before we start</b><br><br>
+            <table style="font-size: 85%;width: 100%; text-align: center;">
+                <tr>
+                    <td>Duration :&nbsp;</td>
+                    <td><input name="duration" type="number" style="height: 30%; border: 1px black solid; border-radius: 5px;
+                            margin-bottom: 10px;
+                            font-size: 85%;font-family: 'Oxanium', sans-serif;" placeholder="Sec" required>&ensp;</td>
+                    <td>Title :&nbsp;</td>
+                    <td><input name="title" type="text" style="height: 30%; border: 1px black solid; border-radius: 5px;
+                            margin-bottom: 10px;
+                            font-size: 85%;font-family: 'Oxanium', sans-serif;" placeholder="Eg : Relevant Title" required>&ensp;
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td><br>Grade :&nbsp;</td>
+                    <td><br><input name="grade" type="number"  min="1" max="12"
+                    style="height: 30%; border: 1px black solid; border-radius: 5px;
+                        margin-bottom: 10px;width: 89%;
+                        font-size: 85%;font-family: 'Oxanium', sans-serif;" placeholder="range from 1 to 12" required>&ensp;</td>
+                    <td><br>Count :&nbsp;</td>
+                    <td><br><input name="count" type="number" min="1" max="100" style="height: 30%; border: 1px black solid; border-radius: 5px;
+                        margin-bottom: 10px;width:89%;
+                        font-size: 85%;font-family: 'Oxanium', sans-serif;" placeholder="range from 1 to 100" required>&ensp;</td>
+
+                </tr>
+            </table>
+            </p>
+
+            <button class="but" style="margin-top:20px">
+                NEXT
+            </button>
+        </form>
+
+    </div>
+</body>
+
+
+
+</html>

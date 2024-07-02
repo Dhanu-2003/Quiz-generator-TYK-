@@ -1,0 +1,145 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Generater</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title-box">
+            <h1 class="title">
+                &nbsp;&nbsp;TEST YOUR KNOWELEDGE&nbsp;&nbsp;
+            </h1>
+
+        </div>
+
+    </div>
+    <div style="margin: 1px; display: flex; flex-wrap: nowrap;">
+        <button class="but1" onclick="solv()">SOLVED QUESTIONS</button>
+        <button class="but1" onclick="his()">HISTORY</button>
+    </div>
+    <div class="main-body" style="height: 100%;">
+        <div class="about">
+            <p class="content">
+                <mark>TYK (Test your knowledge)</mark> is a website build to improve student’s MCQ answering technique
+                and to boost student marks in Multiple choice question. You are free to choose any subject with any
+                title.
+            </p>
+            <div class="modes">
+                <p class="content">
+                    TEST YOUR KNOWLEDGE consist of two modes:<br>
+                    <hr>
+                    <span style="font-size: 15px;font-family: 'Oxanium', sans-serif;">
+                        &emsp;&emsp;
+                        <mark>PRACTICE MODE :</mark> A assistant will be given to solve questions. No marks will be
+                        provided.
+                    </span>
+                    <br>
+                    <span style="font-size: 15px;font-family:'Oxanium', sans-serif;">
+                        &emsp;&emsp;
+                        <mark>TEST MODE :</mark> A assistant will be given to solve questions. Marks will be provided
+                        and results
+                        will be analyzed.
+                    </span>
+                </p>
+            </div>
+        </div>
+        <input type="search" style="position: relative;top:-6%;width: 50%;height: 5%;border-radius: 10px;font-family: 'Oxanium', sans-serif;
+        border: 1px black solid;padding: 6px;" placeholder="Search" id="search" onkeyup="retrive()">
+        <label for="search" id="lab" style="width: 100%;text-align: center;
+        font-family: 'Oxanium', sans-serif;color: black;font-size: 20px;">POPULAR SUBJECTS</label>
+        <div style="display: flex; justify-content: flex-start;height: 60%;margin-top: 20px;
+        flex-wrap: wrap;width: 100%;padding:10px; border: 5px black solid;border-radius: 5px;
+        overflow-y: auto;" id="allsubjects">
+            {%for i in data%}
+            <div class="leaderboard" style="display: flex;justify-content: space-around;">
+                <p class="title" style="width: 100%;">
+                    <b>{{i}}</b>
+                </p>
+                <button class="but" style="font-size: 13px;
+                width: fit-content;height: fit-content;padding: 5px;" onclick="start('{{i}}')">
+                    START TEST
+                </button>
+                <button class="but" style="font-size: 13px;
+                width: fit-content;height: fit-content;padding: 5px;" onclick="rank('{{i}}')">
+                    GET RANK
+                </button>
+            </div>
+            {%endfor%}
+            <div id="nosub" class="leaderboard1" style="display: none;justify-content: space-around;width: 100%;">
+                <p  class="title" style="width: 100%;">
+                    <b>Subject Sound's new🙃.Let me test you</b>
+                    <button class="but" onclick="nosubstart()">
+                        START TEST
+                    </button></a>
+                    <button class="but" onclick="nosubrank()">
+                        GET RANK
+                    </button></a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+<script>
+    let y = "";
+    function retrive() {
+        let x = document.getElementsByClassName("leaderboard");
+        y = document.getElementById("search").value;
+        let m = 0;
+        document.getElementById("allsubjects").scrollIntoView();
+
+
+        for (let i = 0; i < x.length; i++) {
+            
+            if (x[i].getElementsByClassName("title")[0].innerText.toLowerCase().indexOf(y.toLowerCase()) == -1) {
+                x[i].style.display = 'none';
+                m += 1;
+            }
+            else {
+                x[i].style.display = 'flex';
+                m -= 1;
+            }
+        }
+      
+        if (m >= x.length) {
+            document.getElementById("nosub").style.display = "block";
+        }
+        else {
+            document.getElementById("nosub").style.display = "none";
+        }
+
+
+
+    }
+    function nosubstart() {
+        window.location = `/TMK/getname/${y}`;
+    }
+    function start(x) {
+        window.location = `/TMK/getname/${x}`;
+    }
+    function nosubrank() {
+        window.location = `/TMK/rank/${y}`;
+    }
+    function rank(x) {
+        window.location = `/TMK/rank/${x}`;
+    }
+    function solv(){
+        window.location=`/TMK/gm/${0}`;
+    }
+    function his(){
+        window.location=`/TMK/gm/${1}`;
+    }
+</script>
+
+</html>

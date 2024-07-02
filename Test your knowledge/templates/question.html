@@ -1,0 +1,487 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="1"> -->
+    <!-- <meta http-equiv="refresh" content="{{data[3]}}; javascript:timeup() "> -->
+    <title>Quiz Generater</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title-box">
+            <h1 class="title">
+                &nbsp;&nbsp;TEST YOUR KNOWELEDGE&nbsp;&nbsp;
+            </h1>
+        </div>
+    </div>
+    <div class="main-body" style="height: 100%;  display: flex;
+    align-items: center;justify-content: center;">
+        <div id="enable" class="start-test" style="width: 500px;position: relative;">
+            <div class="title" style="width: 100%;" action="/TMK/getdata" method="post">
+                <b>Need your permission for full screen</b><br><br>
+
+                <button class="but" style="margin-top:20px;" onclick="openFullscreen()">
+                    Enable
+                </button>
+
+            </div>
+        </div>
+        <form id="start-test-1" class="start-test" style="width: 100%;position: relative;height: 80%;
+        display: none;flex-wrap: wrap; font-family: 'Oxanium', sans-serif;" action="/TMK/analysis" method="post">
+
+            <div class="test-analysis">
+                REVIEW
+            </div>
+            <label style="position: absolute;top:-3%;right: 2%; background-color: black; color: white;
+                border: 1px black solid; border-right: 1px black solid;
+                padding: 5px;width: fit-content;text-align: center;" id="time-1">
+                <b>Let's Begin</b>
+
+            </label>
+            <div class="report-1" style="overflow-y: auto;justify-content: flex-start;">
+                {%for i in data[4]%}
+                <input type="text" style="display: none;" id='ans{{i}}' name='optans{{i}}' value="0">
+                <a href="javascript:redirect('{{i}}')" style="text-decoration: none;">
+                    <div id="qno{{i}}" name="hello" class="review-report">
+                        Question - {{i}}
+                    </div>
+                </a>
+                {%endfor%}
+                <input type="text" style="display: none;" id='timeleft-1' name='timeleft-1' value="0">
+            </div>
+
+            <div>
+                <button type="submit" class="but" onclick="completed()">FINISH</button>
+            </div>
+
+
+        </form>
+
+
+        <div id="question-start" class="main-body" style="height: 100%;  display: none;
+    align-items: center;justify-content: center;">
+
+
+
+            <div class="start-test" style="width: 100%;position: relative;height: 80%;
+        display: flex; flex-direction: column;justify-content: flex-start;
+        font-family: 'Oxanium', sans-serif;">
+
+
+                <div style="background-color: white;height: fit-content;
+            width: fit-content;margin: 10px;word-wrap: break-word;color: black;
+            padding: 10px;margin-bottom: 0px;border: 1px black solid;">
+
+                    <label style="position: absolute;top:-3%;background-color: white;
+                border: 1px black solid; border-right: 1px black solid;
+                padding: 5px;width: 120px;text-align: center;" id="questionno">
+                        <b>Question - 1</b>
+
+                    </label>
+                    <label style="position: absolute;top:-3%;right: 2%; background-color: white;
+                border: 1px black solid; border-right: 1px black solid;
+                padding: 5px;width: fit-content;text-align: center;" id="time">
+                        <b>Let's Begin</b>
+
+                    </label>
+                    <p id="question">{{data[0][0]}}</p>
+                </div>
+                <div style="background-color: white ; 
+            margin-top: 0px;margin: 10px; height: fit-content;color: black;
+            word-wrap: break-word;border: 1px black solid;
+            display: flex;flex-wrap: nowrap; padding: 10px;
+            flex-direction: column;">
+
+                    <button style="margin: 5px;padding: 5px;" class="options" id="opt1" onclick="select('opt1')">
+                        {{data[1][0][0]}}
+                    </button>
+
+                    <button style="margin: 5px;padding: 5px;" class="options" id="opt2" onclick="select('opt2')">
+                        {{data[1][0][1]}}
+                    </button>
+
+                    <button style="margin: 5px;padding: 5px;" class="options" id="opt3" onclick="select('opt3')">
+                        {{data[1][0][2]}}
+                    </button>
+                    <button style="margin: 5px;padding: 5px;" class="options" id="opt4" onclick="select('opt4')">
+                        {{data[1][0][3]}}
+                    </button>
+
+
+
+                </div>
+
+
+                <div style="position: relative;top: 0%;margin:10px; display: flex;height: 30%;width: 98%;
+            border: 1px black solid;justify-content: center;flex-wrap: wrap;" id="assist">
+                    <label id="aidata" style="text-align: left;height: 0%;width: 100%;padding: 10px;">
+
+                    </label>
+                    <button class="but" id="but-assist" style="margin: 10px;" onclick="getassist()">
+                        GET ASSISTANT
+                    </button>
+
+                </div>
+
+
+
+                <div style="display: flex; flex-wrap: wrap;
+            justify-content: space-around;width: 100%;position: absolute;
+            bottom:-8%;" class="hello">
+                    <button class="but" onclick="finish()">
+                        FINISH TEST
+                    </button>
+                    <button class="but" id="rev_qu" onclick="review_que()">
+                        Mark for review
+                    </button>
+                    <p>
+                        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+                    </p>
+                    <button id="prev" class="but" onclick="prev_que()">
+                        Prev
+                    </button>
+                    <button id="next" class="but" onclick="next_que()">
+                        Next
+                    </button>
+                </div>
+                <div id="progress" style="position: absolute;bottom: 0%; display: flex;
+            height: 0.6%;background-color: red;">
+                </div>
+            </div>
+
+
+        </div>
+</body>
+
+<script>
+
+    if (+'{{data[2]}}' != 1) {
+        document.getElementById('assist').style.display = 'none';
+    }
+
+    var elem = document.documentElement;
+    function openFullscreen() {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+        }
+        document.getElementById("enable").style.display = 'none';
+        document.getElementById("question-start").style.display = 'flex';
+
+    }
+    if (document.addEventListener) {
+        document.addEventListener('fullscreenchange', exitHandler, false);
+        document.addEventListener('mozfullscreenchange', exitHandler, false);
+        document.addEventListener('MSFullscreenChange', exitHandler, false);
+        document.addEventListener('webkitfullscreenchange', exitHandler, false);
+    }
+
+    function exitHandler() {
+        if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+            alert('You had ended the exam by exiting full screen');
+            completed();
+            document.getElementById("start-test-1").submit();
+        }
+    }
+
+
+
+    let marked = [];
+    let opted = [];
+    let current_question = 0;
+    let question = JSON.parse('{{data[0] | tojson}}');
+    let options = JSON.parse('{{data[1] |tojson}}');
+    
+
+
+    let min = ~~(+'{{data[3]}}' / 60);
+    var sec = +'{{data[3]}}' - (min * 60);
+    var timeleft = +'{{data[3]}}';
+    var actualtime = +'{{data[3]}}';
+    var myList = [];
+    if (current_question == 0) {
+        document.getElementById('prev').style.display = 'none';
+    }
+    alert("EXAM CAN ONLY BE TAKEN UNDER FULLSCREEN MODE");
+
+    for (let i = 0; i < question.length; i++) {
+        marked[i] = '0';
+        opted[i] = '0';
+    }
+    function retrive(qno) {
+        if (timeleft <= 1) {
+            completed();
+            alert("Timeup!! Please end your exam to get analysis");
+            document.getElementById("start-test-1").submit();
+
+        }
+        else {
+            document.getElementById("opt1").style.backgroundColor = 'white';
+            document.getElementById("opt2").style.backgroundColor = 'white';
+            document.getElementById("opt3").style.backgroundColor = 'white';
+            document.getElementById("opt4").style.backgroundColor = 'white';
+            document.getElementById("opt1").style.color = 'black';
+            document.getElementById("opt2").style.color = 'black';
+            document.getElementById("opt3").style.color = 'black';
+            document.getElementById("opt4").style.color = 'black';
+            if (opted[qno] != "0") {
+                let opt = document.getElementById('opt' + opted[qno]);
+                opt.style.backgroundColor = 'green';
+                opt.style.borderRadius = '10px';
+                opt.style.color = 'white';
+
+            }
+
+
+            if (marked[qno] == '1') {
+                document.getElementById("rev_qu").innerText = "Marked";
+                document.getElementById("rev_qu").style.backgroundColor = "white";
+                document.getElementById("rev_qu").style.color = "black";
+                document.getElementById("rev_qu").style.fontWeight = "bold";
+            }
+            else {
+                document.getElementById("rev_qu").innerText = "Mark for review";
+                document.getElementById("rev_qu").style.backgroundColor = "black";
+                document.getElementById("rev_qu").style.color = "white";
+                document.getElementById("rev_qu").style.fontWeight = "normal";
+
+            }
+        }
+
+
+
+    }
+
+    function prev_que() {
+        if (timeleft <= 1) {
+            completed();
+            alert("Timeup!! Please end your exam to get analysis");
+            document.getElementById("start-test-1").submit();
+
+        }
+        else {
+
+            document.getElementById('next').style.display = 'block';
+            document.getElementById('prev').style.display = 'block';
+            if (current_question == 1) {
+                document.getElementById('prev').style.display = 'none';
+
+            }
+            if (current_question == question.length) {
+                document.getElementById('next').style.display = 'none';
+                
+
+            }
+            current_question -= 1;
+            retrive(current_question);
+            document.getElementById('questionno').innerText = "Question - " + (current_question + 1);
+            document.getElementById('question').innerText = question[current_question];
+            document.getElementById('opt1').innerText = options[current_question][0];
+            document.getElementById('opt2').innerText = options[current_question][1];
+            document.getElementById('opt3').innerText = options[current_question][2];
+            document.getElementById('opt4').innerText = options[current_question][3];
+        }
+
+    }
+    function next_que() {
+        if (timeleft <= 1) {
+            completed();
+            alert("Timeup!! Please end your exam to get analysis");
+            document.getElementById("start-test-1").submit();
+
+        }
+        else {
+
+            document.getElementById('next').style.display = 'block';
+            document.getElementById('prev').style.display = 'block';
+            if (current_question + 2 >= question.length) {
+                document.getElementById('next').style.display = 'none';
+            }
+            current_question += 1;
+            retrive(current_question);
+            document.getElementById('questionno').innerText = "Question - " + (current_question + 1);
+            document.getElementById('question').innerText = question[current_question];
+            document.getElementById('opt1').innerText = options[current_question][0];
+            document.getElementById('opt2').innerText = options[current_question][1];
+            document.getElementById('opt3').innerText = options[current_question][2];
+            document.getElementById('opt4').innerText = options[current_question][3];
+        }
+
+    }
+
+    function redirect(i) {
+        if (timeleft <= 1) {
+            completed();
+            alert("Timeup!! Check your analysis in history section");
+            document.getElementById("start-test-1").submit();
+        }
+        else {
+            let ele = document.getElementById('qno' + i);
+            current_question = Number(i);
+
+            document.getElementById("start-test-1").style.display = 'none';
+            document.getElementById("question-start").style.display = 'flex';
+            prev_que();
+
+        }
+
+
+    }
+
+
+    function time() {
+        if (timeleft <= 1) {
+            completed();
+            alert("Timeup!! Check your analysis in history section");
+            document.getElementById("start-test-1").submit();
+        }
+
+        var nexttimer = setInterval(function () {
+            if (timeleft <= 1) {
+                clearInterval(nexttimer);
+            }
+
+            document.getElementById("progress").style.width = (timeleft / actualtime) * 100 + '%';
+            document.getElementById("progress").style.opacity = 150 - (timeleft / actualtime) * 100 + '%';
+            timeleft -= 1;
+
+            if (sec == 0) {
+                min -= 1;
+                sec = 60
+            }
+            sec -= 1;
+            document.getElementById("time").innerText = min + ':' + sec;
+            document.getElementById("time-1").innerText = min + ':' + sec;
+
+            if (timeleft <= 1) {
+                completed();
+            }
+
+        }, 1000);
+    };
+    time();
+
+    function select(data) {
+        if (timeleft <= 1) {
+            completed();
+            alert("Timeup!! Please end your exam to get analysis");
+            document.getElementById("start-test-1").submit();
+
+        }
+        else {
+            document.getElementById("opt1").style.backgroundColor = 'white';
+            document.getElementById("opt2").style.backgroundColor = 'white';
+            document.getElementById("opt3").style.backgroundColor = 'white';
+            document.getElementById("opt4").style.backgroundColor = 'white';
+            document.getElementById("opt1").style.color = 'black';
+            document.getElementById("opt2").style.color = 'black';
+            document.getElementById("opt3").style.color = 'black';
+            document.getElementById("opt4").style.color = 'black';
+            let opt = document.getElementById(data);
+            opt.style.backgroundColor = 'green';
+            opt.style.borderRadius = '10px';
+            opt.style.color = 'white';
+            opted[current_question] = data[3];
+        }
+    }
+    function review_que() {
+        if (timeleft <= 1) {
+            completed();
+            alert("Timeup!! Please end your exam to get analysis");
+            document.getElementById("start-test-1").submit();
+
+        }
+        else {
+            if (marked[current_question] != '1') {
+                document.getElementById("rev_qu").innerText = "Marked";
+                document.getElementById("rev_qu").style.backgroundColor = "white";
+                document.getElementById("rev_qu").style.color = "black";
+                document.getElementById("rev_qu").style.fontWeight = "bold";
+                marked[current_question] = '1';
+            }
+            else {
+                document.getElementById("rev_qu").innerText = "Mark for review";
+                document.getElementById("rev_qu").style.backgroundColor = "black";
+                document.getElementById("rev_qu").style.color = "white";
+                document.getElementById("rev_qu").style.fontWeight = "normal";
+                marked[current_question] = '0';
+            }
+        }
+
+    }
+
+
+    function finish() {
+        if (timeleft <= 1) {
+            completed();
+            alert("Timeup!! Please end your exam to get analysis");
+            document.getElementById("start-test-1").submit();
+
+        }
+
+        document.getElementById("start-test-1").style.display = 'flex';
+        document.getElementById("question-start").style.display = 'none';
+
+        let x1 = document.getElementsByName("hello");
+        for (let i = 0; i < x1.length; i++) {
+
+            if (opted[i] == '0') {
+                x1[i].innerText = "Question - " + (i + 1) + "  (Not Answered)";
+                x1[i].style.backgroundColor = 'red';
+                x1[i].style.color = 'white';
+                x1[i].style.opacity = '70%';
+            }
+            else {
+                x1[i].innerText = "Question - " + (i + 1) + "  (Answered)";
+                x1[i].style.backgroundColor = 'green';
+                x1[i].style.color = 'white';
+                x1[i].style.opacity = '70%';
+            }
+            if (marked[i] == '1') {
+                x1[i].innerText = "Question - " + (i + 1) + "  (Marked for review)";
+                x1[i].style.backgroundColor = 'yellow';
+                x1[i].style.color = 'black';
+                x1[i].style.opacity = '70%';
+            }
+        }
+        /* for(let i=0;i<marked.length;i++){
+            alert(marked[i]);
+            alert("Question - "+i);
+            
+            if(marked[i]=='1'){
+                document.getElementById("qno"+i).style.backgroundColor = 'red';
+                document.getElementById("qno"+i).style.color = 'white';
+                document.getElementById("qno"+i).style.opacity = '70%';
+            }  }*/
+
+
+    }
+    function completed() {
+        document.getElementById("timeleft-1").value = (min * 60) + sec;
+        for (let i = 0; i < opted.length; i++) {
+            let inp1 = document.getElementById("ans" + (i + 1));
+            if (opted[i] != '0') {
+                inp1.value = opted[i];
+            }
+
+        }
+    }
+
+
+
+
+
+</script>
+
+</html>

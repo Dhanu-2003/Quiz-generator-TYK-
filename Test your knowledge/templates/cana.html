@@ -1,0 +1,94 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="1"> -->
+    <title>Quiz Generater</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title-box">
+            <h1 class="title">
+                &nbsp;&nbsp;TEST YOUR KNOWELEDGE&nbsp;&nbsp;
+            </h1>
+        </div>
+    </div>
+    <div class="main-body" style="height: 100%;  display: flex;
+    align-items: center;justify-content: center;">
+        <div class="start-test" style="width: 100%;position: relative;height: 80%;
+        display: flex;flex-wrap: wrap;
+        font-family: 'Oxanium', sans-serif;">
+
+            <div class="test-analysis">
+                REVIEW
+            </div>
+            <div class="report">
+
+                <div class="attened">
+                    <label style="background-color: black;color: white;
+                    text-align: center;height: 20%;flex-grow: 1;">ATTENDED</label>
+                    <div class="data">{{data[0]}}/{{data[12]}}</div>
+                    
+                </div>
+                <div class="unattened">
+                    <div style="background-color: black;width: 100%;color: white;
+                    text-align: center;height: 20%;">UNATTENDED</div>
+                    <div class="data">{{data[1]}}/{{data[12]}}</div>
+                </div>
+                <div class="correct">
+                    <div style="background-color: black;width: 100%;color: white;
+                    text-align: center;height: 20%;">CORRECT</div>
+                    <div class="data">{{data[2]}}/{{data[0]}}</div>
+                </div>
+                <div class="incorrect">
+                    <div style="background-color: black;width: 100%;color: white;
+                    text-align: center;height: 20%;">INCORRECT</div>
+                    <div class="data">{{data[3]}}/{{data[0]}}</div>
+                </div>
+                <div class="gained">
+                    <div style="background-color: green;width: 100%;color: white;
+                    text-align: center;height: 20%;">MARKS GAINED</div>
+                    <div class="data">{{data[4]}}/{{data[11]}}</div>
+                </div>
+                <div class="loose">
+                    <div style="background-color: rgb(201, 79, 79);width: 100%;color: white;
+                    text-align: center;height: 20%;">MARKS LOOSE</div>
+                    <div class="data">{{data[5]}}/{{data[10]}}</div>
+                </div>
+                <div class="total">
+                    <div style="background-color: rgb(98, 255, 98);width: 100%;color: black;
+                    text-align: center;height: 20%;">TOTAL MARK</div>
+                    <div class="data">{{data[6]}}/{{data[9]}}</div>
+                </div>
+                <div class="timetaken">
+                    <div style="background-color: black;width: 100%;color: white;
+                    text-align: center;height: 20%;">TIME TAKEN</div>
+                    <div class="data">{{data[7]}}/{{data[8]}}</div>
+                </div>
+
+            </div>
+            <div>
+                <button class="but" onclick="rank_back()">BACK</button>
+                <a href="{{url_for('index')}}"><button class="but">MAIN PAGE</button></a>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script>
+    function rank_back(){
+        if(Number('{{data[13]}}')!=2){
+            window.location=`/TMK/his_exe`;
+        }
+        else{
+            window.location=`/TMK/your_rank`
+        }
+    }
+</script>
+</html>

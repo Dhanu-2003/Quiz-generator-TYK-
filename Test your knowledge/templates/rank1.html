@@ -1,0 +1,89 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz Generater</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title-box">
+            <h1 class="title">
+                &nbsp;&nbsp;TEST YOUR KNOWELEDGE&nbsp;&nbsp;
+            </h1>
+        </div>
+    </div>
+    <div class="main-body" style="height: 100%;  display: flex;
+    align-items: center;justify-content: center;">
+        <div id="start-test-1" class="start-test" style="width: 100%;position: relative;height: 80%;
+        display: flex;flex-wrap: wrap; font-family: 'Oxanium', sans-serif;">
+
+            <div class="test-analysis">
+                REVIEW
+            </div>
+            <label style="position: absolute;top:-3%;right: 2%; background-color: black; color: white;
+                border: 1px black solid; border-right: 1px black solid;
+                padding: 5px;width: fit-content;text-align: center;" id="time-1">
+                <b>Let's Begin</b>
+
+            </label>
+            <div class="report-1" style="overflow-y: auto;justify-content: flex-start;">
+                <div style="display: flex;width: 100%;justify-content: flex-end;">
+                    <input type="search" style="width: 30%;height: 30px;border: 1px black solid;border-radius: 10px;
+                    font-family: 'Oxanium', sans-serif;"
+                    placeholder="Search" onkeyup="show_data()" id="entered_data" >
+                </div>
+                <a href="javascript:redirect('{{data[1][3]}}')" style="text-decoration: none;">
+                    <div name="hello" class="review-report" style="display: flex;justify-content: space-between;
+                    background-color: green;transform: scale(1.02);">
+                    <label><b>#{{data[1][0]}}</b></label><label>{{data[1][1]}}</label><label><b>{{data[1][2]}}%</b></label>
+                </div></a>
+                
+                {%for i in data[0]%}
+                
+                    <div name="hello" class="review-report" style="display: flex;justify-content: space-between;" id="{{i[1]}}">
+                    <label><b>#{{i[0]}}</b></label><label class="hello">{{i[1]}}</label><label><b>{{i[2]}}%</b></label>
+                </div>
+                {%endfor%}
+            </div>
+
+            <div>
+                <button type="submit" class="but" onclick="completed()">BACK</button>
+            </div>
+
+
+        </div>
+
+</div>
+</body>
+<script>
+    function redirect(x){
+        window.location = `/TMK/his/que/${x}`;
+    }
+    function completed(){
+        window.location = `/`;
+    }
+    function show_data(){
+        let temp = document.getElementsByClassName("hello");
+        for(let i=0;i<temp.length;i++){
+            if(temp[i].innerText.toUpperCase().indexOf(document.getElementById("entered_data").value.toUpperCase())==-1){
+                document.getElementById(temp[i].innerText).style.display='none';
+                
+            }
+            else{
+                
+                document.getElementById(temp[i].innerText).style.display='flex';
+            }
+        }
+
+    }
+</script>
+
+</html>

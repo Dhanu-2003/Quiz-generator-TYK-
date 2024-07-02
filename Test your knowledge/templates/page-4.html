@@ -1,0 +1,155 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- <meta http-equiv="refresh" content="2;url = 'question.html'"> -->
+
+
+
+    <title>Quiz Generater</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title-box">
+            <h1 class="title">
+                &nbsp;&nbsp;TEST YOUR KNOWELEDGE&nbsp;&nbsp;
+            </h1>
+        </div>
+    </div>
+    <div class="main-body" style="height: 100%;display: flex;
+    align-items: center;justify-content: center;position: relative;">
+        <div id="progress" style="height: 0px; width: 700px;position: relative;display: none;flex-wrap: wrap;
+    font-family: 'Oxanium', sans-serif;font-size: 30px;top:-10%;">
+            <div id="progress-text" style="width: 100%;font-size: 20px;">Loading</div>
+            <div id="progress-1" style="height: 10px; width: 700px;position: relative;display: flex;border: 1px black solid;
+    border-radius: 3px;font-size: 10px;justify-content: flex-end;color: white;">0 %
+            </div>
+        </div>
+        <form class="start-test" style="width: 700px;position: relative;" action='/TMK/questions' method="post">
+            <p class="title" style="width: 100%;">
+                <b>Let's talk about marks</b><br><br>
+            <table style="font-size: 85%;width: 100%; text-align: center;">
+                <tr>
+                    <td>Marks for each valid answer :&nbsp;</td>
+                    <td><br><input name="pos" type="number" min="1" max="10" value="1" style="height: 30%; border: 1px black solid; border-radius: 5px;
+                        margin-bottom: 10px;width:89%;
+                        font-size: 85%;font-family: 'Oxanium', sans-serif;" placeholder="range from 1 to 10">&ensp;
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td><br>Negative Marks for each wrong answer :&nbsp;</td>
+                    <td><br><input name="neg" type="number" min="0" max="5" value="0" style="height: 30%; border: 1px black solid; border-radius: 5px;
+                        margin-bottom: 10px;width: 89%;
+                        font-size: 85%;font-family: 'Oxanium', sans-serif;" placeholder="range from 1 to 12">&ensp;
+                    </td>
+                </tr>
+
+            </table>
+            <br>
+            <input name="prac" type="checkbox" value="1" name="practice">
+            <span style="font-size: medium;">
+                I want to take test in practice mode</span>
+            </p>
+            <button class="but" style="margin-top:20px;" onclick="time(1)">
+                START TEST
+            </button>
+        </form>
+
+    </div>
+</body>
+<script>
+    /* Get the element you want displayed in fullscreen mode (a video in this example): */
+    var elem = document.documentElement;
+
+    /* When the openFullscreen() function is executed, open the video in fullscreen.
+    Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
+    function openFullscreen() {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+        }
+    }
+    var timeleft = (Math.round(Number('{{data[0]}}')/10)*10)*100 + 1000;
+    var actualtime = (Math.round(Number('{{data[0]}}')/10)*10)*100 + 1000;
+
+    let info = "Loading..."
+    let info1 = "Test can only be taken in full screen mode."
+    let info2 = "Escaping from the full screen mode leads to finishing the exam"
+    let info3 = "No analysis and time constrain will be given to practice mode"
+    let info4 = "Good Luck!!"
+    var check = 0;
+    let follow = 0;
+    let count_f = 1;
+    function time(x) {
+        if (x == 1) {
+            check = 1;
+            document.getElementsByClassName('start-test')[0].style.display = 'none';
+            document.getElementById("progress").style.display = 'flex';
+        }
+        if (check == 1) {
+            var nexttimer = setInterval(function () {
+                if (timeleft <= 0) {
+                    clearInterval(nexttimer);
+                }
+                document.getElementById("progress-1").style.width = 100 - ((timeleft / actualtime) * 100) + '%';
+                document.getElementById("progress-1").style.backgroundColor = 'black';
+                if(Math.round((100 - ((timeleft / actualtime) * 100)))<=100){
+                    document.getElementById("progress-1").innerText = Math.round((100 - ((timeleft / actualtime) * 100))) + ' %';
+                }
+                
+                timeleft -= 1;
+                if (Number((100 - ((timeleft / actualtime) * 100)) + 1) % 10 <= 1) {
+                    timeleft-= Number(actualtime/100);
+                    let op = 0;
+                    let tl = 50;
+                    let act =50;
+                    document.getElementById("progress-text").style.opacity =  '0%';
+                    if (count_f == 1) {
+                        document.getElementById("progress-text").innerText = info1;
+                        count_f += 1;
+                    }
+                    else if (count_f == 2) {
+                        document.getElementById("progress-text").innerText = info2;
+                        count_f += 1;
+                    }
+                    else if (count_f == 3) {
+                        document.getElementById("progress-text").innerText = info3;
+                        count_f += 1;
+                    }
+                    else if (count_f == 4) {
+                        document.getElementById("progress-text").innerText = info4;
+                        count_f += 1
+                    }
+                    else {
+                        document.getElementById("progress-text").innerText = info;
+                        count_f = 1;
+                    }
+                    var nexttimer = setInterval(function () {
+                            if (tl <= 0) {
+                                clearInterval(nexttimer);
+                            }
+                            document.getElementById("progress-text").style.opacity = 100 - ((tl / act) * 100) + '%';
+                            tl -= 1;
+                        }, 1);
+                }
+
+            }, 1);
+        }
+    };
+    time(0);
+</script>
+
+
+</html>

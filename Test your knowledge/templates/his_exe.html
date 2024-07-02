@@ -1,0 +1,66 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz Generater</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title-box">
+            <h1 class="title">
+                &nbsp;&nbsp;TEST YOUR KNOWELEDGE&nbsp;&nbsp;
+            </h1>
+        </div>
+    </div>
+    <div class="main-body" style="height: 100%;  display: flex;
+    align-items: center;justify-content: center;">
+        <div id="start-test-1" class="start-test" style="width: 100%;position: relative;height: 80%;
+        display: flex;flex-wrap: wrap; font-family: 'Oxanium', sans-serif;"
+        >
+
+            <div class="test-analysis">
+                REVIEW
+            </div>
+            <label style="position: absolute;top:-3%;right: 2%; background-color: black; color: white;
+                border: 1px black solid; border-right: 1px black solid;
+                padding: 5px;width: fit-content;text-align: center;" id="time-1">
+                <b>Let's Begin</b>
+
+            </label>
+            <div class="report-1" style="overflow-y: auto;justify-content: flex-start;">
+                {%for i in data%}
+                <input type="text" style="display: none;" id='ans' name='optans' value="0">
+                <a href="javascript:redirect('{{i}}')" style="text-decoration: none;">
+                    <div name="hello" class="review-report">
+                    {{i}}
+                </div></a>
+                {%endfor%}
+            </div>
+
+            <div>
+                <button type="submit" class="but" onclick="completed()">BACK</button>
+            </div>
+
+
+        </div>
+
+</div>
+</body>
+<script>
+    function redirect(x){
+        window.location = `/TMK/his/que/${x}`;
+    }
+    function completed(){
+        window.location = `/`;
+    }
+</script>
+
+</html>

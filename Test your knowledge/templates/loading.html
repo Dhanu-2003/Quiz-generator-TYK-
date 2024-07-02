@@ -1,0 +1,91 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- <meta http-equiv="refresh" content="2;url = 'question.html'"> -->
+
+
+
+    <title>Quiz Generater</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="title-box">
+            <h1 class="title">
+                &nbsp;&nbsp;TEST YOUR KNOWELEDGE&nbsp;&nbsp;
+            </h1>
+        </div>
+    </div>
+    <div class="main-body" style="height: 100%;display: flex;
+    align-items: center;justify-content: center;position: relative;">
+
+        <div id="progress" style="height: 10px; width: 700px;position: relative;display: none;border: 1px red solid;
+    border-radius: 3px;"></div>
+        <form class="start-test" style="width: 700px;position: relative;" action='/TMK/questions' method="post">
+            <p class="title" style="width: 100%;">
+                <b>Let's talk about marks</b><br><br>
+            <table style="font-size: 85%;width: 100%; text-align: center;">
+                <tr>
+                    <td>Marks for each valid answer :&nbsp;</td>
+                    <td><br><input name="pos" type="number" min="1" max="10" value="1" style="height: 30%; border: 1px black solid; border-radius: 5px;
+                        margin-bottom: 10px;width:89%;
+                        font-size: 85%;font-family: 'Oxanium', sans-serif;" placeholder="range from 1 to 10">&ensp;
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td><br>Mark for each wrong answer :&nbsp;</td>
+                    <td><br><input name="neg" type="number" min="-5" max="0" value="0" style="height: 30%; border: 1px black solid; border-radius: 5px;
+                        margin-bottom: 10px;width: 89%;
+                        font-size: 85%;font-family: 'Oxanium', sans-serif;" placeholder="range from 1 to 12">&ensp;
+                    </td>
+                </tr>
+
+            </table>
+            <br>
+            <input name="prac" type="checkbox" value="1" name="practice">
+            <span style="font-size: medium;">
+                I want to take test in practice mode</span>
+            </p>
+            <button class="but" style="margin-top:20px;" onclick="time(1)">
+                START TEST
+            </button>
+        </form>
+
+    </div>
+</body>
+<script>
+    
+    var timeleft = 100000;
+    function time(x) {
+        if (x == 1) {
+            
+            document.getElementsByClassName('start-test')[0].style.display = 'none';
+            document.getElementById("progress").style.display = 'block';
+        }
+
+        var nexttimer = setInterval(function () {
+            if (timeleft <= 0) {
+                clearInterval(nexttimer);
+            }
+
+            document.getElementById("progress").style.width = 100 - ((timeleft / actualtime) * 100) + '%';
+            document.getElementById("progress").style.backgroundColor = 'green';
+            timeleft -= 1;
+
+        }, 1000);
+        
+    };
+    time(0);
+</script>
+
+
+</html>
