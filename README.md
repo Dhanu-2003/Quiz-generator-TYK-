@@ -100,9 +100,19 @@ quiz-generator/
 ├── static/                # CSS and JavaScript files for frontend
 ├── app.py                 # Main Flask application file
 ├── requirements.txt       # Python dependencies
+├── Quiz Json Generaate.py
+├── app.py
+├── sql_table.py
+├── example.py
 ├── README.md              # This README file
 └── ...                    # Additional project files
 ```
+
+
+
+
+
+
 
 ## Contribution
 
